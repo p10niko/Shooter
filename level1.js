@@ -18,6 +18,7 @@ var Level1 = {
 
         //background music
         game.load.audio('level1background', 'assets/sounds/music/level1.ogg');
+        game.load.audio('game_over_music', 'assets/sounds/music/death.ogg');
 
         //sound effects
         game.load.audio('laser', 'assets/sounds/effects/laser6.mp3');
@@ -45,6 +46,7 @@ var Level1 = {
         laser = game.add.audio('laser');
         explosionSound = game.add.audio('explosion');
         explosionPlayerSound = game.add.audio('explosion_player');
+        gameOverMusic = game.add.audio('game_over_music');
 
          //starting the background music
          levelbackgroundmusic.play();
