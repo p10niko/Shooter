@@ -27,6 +27,7 @@ var Level1 = {
 
         game.scale.pageAlignHorizontally = true;
 
+        //starting the background music
         levelbackgroundmusic = game.add.audio('level1background', 1, true);
         levelbackgroundmusic.play();
                 
