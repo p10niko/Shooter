@@ -22,6 +22,7 @@ var Level1 = {
         //sound effects
         game.load.audio('laser', 'assets/sounds/effects/laser6.mp3');
         game.load.audio('explosion', 'assets/sounds/effects/explosion.mp3');
+        game.load.audio('explosion_player', 'assets/sounds/effects/explosion_player.mp3');
 
         //Enemies
         game.load.image('first_wave_enemy', '/assets/enemies/enemy2.png');
@@ -43,6 +44,7 @@ var Level1 = {
         levelbackgroundmusic = game.add.audio('level1background', 1, true);
         laser = game.add.audio('laser');
         explosionSound = game.add.audio('explosion');
+        explosionPlayerSound = game.add.audio('explosion_player');
 
          //starting the background music
          levelbackgroundmusic.play();
@@ -206,6 +208,7 @@ var Level1 = {
 
         
         if (! player.alive && gameOver.visible === false) {
+            explosionPlayerSound.play();
             gameOver.visible = true;
             gameOver.alpha = 0;
             var fadeInGameOver = game.add.tween(gameOver);
