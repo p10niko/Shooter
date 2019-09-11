@@ -34,6 +34,7 @@ body {
 		var bank;
 		var shipTrail;
 		var bullets;
+		var bulletUpgrade;
 		var fireButton;
 		var bulletTimer = 0;
 
@@ -180,13 +181,20 @@ body {
 			}
 			
 			function weaponLevel3(){
+				player.weaponLevel = 3;
 				laserBeamSound.stop();
-                player.weaponLevel = 3;
                 
 			}
+
+			function randRange(data) {
+                var newTime = data[Math.floor(data.length * Math.random())];
+                 return newTime;
+            }
+
+            var timer = setInterval(launchWeaponUpgrade, 12000);
 			
 			function launchWeaponUpgrade(){
-                var timeArray = new Array(10000, 15000, 8000, 12000, 18000);
+                var timeArray = new Array(12000, 17000, 8000, 20000, 18000);
                 var BULLET_UPGRADE_SPEED = -200;
                 var item = bulletUpgrade.getFirstExists(false);
                 if (item) {
@@ -202,7 +210,7 @@ body {
                 if(player.weaponLevel < 4){
                     player.weaponLevel++;
                 }
-                weaponApgradeSound.play();
+                weaponUpgradeSound.play();
             }
 
 		//Launching the first enemy
