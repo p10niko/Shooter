@@ -11,6 +11,7 @@ body {
 }
 </style>
 <script src="level1.js"></script>
+<script src="menu.js"></script>
 <script src="https://cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js" type="text/javascript"></script>
 </head>
 <body>
@@ -55,9 +56,9 @@ body {
 			game.load.crossOrigin = 'p10niko';
 			
 
-
+			game.state.add('menu', Menu);
 			game.state.add('level1', Level1);
-			game.state.start('level1');
+			game.state.start('menu');
 
 		}
 
