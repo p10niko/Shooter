@@ -26,13 +26,13 @@ var Level1 = {
         game.load.audio('explosion_player', 'assets/sounds/effects/explosion_player.mp3');
 
         //Enemies
-        game.load.image('first_wave_enemy', '/assets/enemies/enemy2.png');
+        game.load.image('first_wave_enemy', 'assets/enemies/enemy2.png');
 
         //visual effects
         game.load.spritesheet('explosion', '/assets/explode.png', 128, 128);
 
-        //Created my font
-        game.load.bitmapFont('spacefont', '/assets/spacefont/font.png', '/assets/spacefont/font.fnt');
+        //my custom font used here
+        game.load.bitmapFont('spacefont', 'assets/spacefont/font.png', 'assets/spacefont/font.fnt');
         
     },
 
