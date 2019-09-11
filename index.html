@@ -165,7 +165,8 @@ body {
                     var explosion = explosions.getFirstExists(false);
                     explosion.reset(player.body.x + player.body.halfWidth, player.body.y + player.body.halfHeight);
                     explosion.alpha = 0.7;
-                    explosion.play('explosion', 30, false, true);
+					explosion.play('explosion', 30, false, true);
+					explosionSound.play();
                 }
 			}
 			
@@ -175,10 +176,9 @@ body {
                 explosion.body.velocity.y = enemy.body.velocity.y;
                 explosion.alpha = 0.7;
                 explosion.play('explosion', 30, false, true);
-				explosion.play();
                 enemy.damage(enemy.damageAmount);
-
-                bullet.kill();
+				bullet.kill();
+				explosionSound.play();
             }
 	</script>
 </body>

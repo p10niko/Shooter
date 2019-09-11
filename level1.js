@@ -39,7 +39,7 @@ var Level1 = {
 
         levelbackgroundmusic = game.add.audio('level1background', 1, true);
         laser = game.add.audio('laser');
-        explosion = game.add.audio('explosion');
+        explosionSound = game.add.audio('explosion');
 
          //starting the background music
          levelbackgroundmusic.play();
