@@ -101,6 +101,14 @@ var Level1 = {
             explosion.animations.add('explosion');
         });
 
+        //  Big explosion
+        playerDeath = game.add.emitter(player.x, player.y);
+        playerDeath.width = 50;
+        playerDeath.height = 50;
+        playerDeath.makeParticles('explosion', [0,1,2,3,4,5,6,7], 10);
+        playerDeath.setAlpha(0.9, 0, 800);
+        playerDeath.setScale(0.1, 0.6, 0.1, 0.6, 1000, Phaser.Easing.Quintic.Out);
+
         //Enemy1
         firstEnemy = game.add.group();
         firstEnemy.enableBody = true;
@@ -137,6 +145,12 @@ var Level1 = {
              scoreText.text = 'Score: ' + score;
          };
          scoreText.render();
+
+         //  Game over text
+        gameOver = game.add.bitmapText(game.world.centerX, game.world.centerY, 'spacefont', 'GAME OVER!', 100);
+        gameOver.x = gameOver.x - gameOver.textWidth / 2;
+        gameOver.y = gameOver.y - gameOver.textHeight / 3;
+        gameOver.visible = false;
        
     },
 
@@ -189,5 +203,25 @@ var Level1 = {
         //collision check
         game.physics.arcade.overlap(player, firstEnemy, shipCollide, null, this);
         game.physics.arcade.overlap(firstEnemy, bullets, hitEnemy, null, this);
+
+        
+        if (! player.alive && gameOver.visible === false) {
+            gameOver.visible = true;
+            gameOver.alpha = 0;
+            var fadeInGameOver = game.add.tween(gameOver);
+            fadeInGameOver.to({alpha: 1}, 1000, Phaser.Easing.Quintic.Out);
+            fadeInGameOver.onComplete.add(setResetHandlers);
+            fadeInGameOver.start();
+            function setResetHandlers() {
+                //  The "click to restart" handler
+                tapRestart = game.input.onTap.addOnce(_restart,this);
+                spaceRestart = fireButton.onDown.addOnce(_restart,this);
+                function _restart() {
+                    tapRestart.detach();
+                    spaceRestart.detach();
+                    restart();
+                }
+            }
+        }
     }
 }
