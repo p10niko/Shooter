@@ -50,6 +50,7 @@ var Level1 = {
         explosionSound = game.add.audio('explosion');
         explosionPlayerSound = game.add.audio('explosion_player');
         shieldsDown = game.add.audio('shields_down');
+        shieldsDown.volume = 5;
         gameOverMusic = game.add.audio('game_over_music');
 
         //starting the background music
