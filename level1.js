@@ -48,8 +48,8 @@ var Level1 = {
         explosionPlayerSound = game.add.audio('explosion_player');
         gameOverMusic = game.add.audio('game_over_music');
 
-         //starting the background music
-         levelbackgroundmusic.play();
+        //starting the background music
+        levelbackgroundmusic.play();
                 
         //  The scrolling starfield background
         starfield = game.add.tileSprite(0, 0, 800, 600, 'starfield');
@@ -210,7 +210,9 @@ var Level1 = {
 
         
         if (! player.alive && gameOver.visible === false) {
+            levelbackgroundmusic.stop();
             explosionPlayerSound.play();
+            gameOverMusic.play();
             gameOver.visible = true;
             gameOver.alpha = 0;
             var fadeInGameOver = game.add.tween(gameOver);
