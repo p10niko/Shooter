@@ -15,6 +15,7 @@ var Level1 = {
         
         //loading bullets
         game.load.image('bullet', 'assets/bullets/bullet.png');
+        game.load.image('second_enemy_bullet', 'assets/bullets/bullet1.png');
 
         //background music
         game.load.audio('level1background', 'assets/sounds/music/level1.ogg');
@@ -27,6 +28,7 @@ var Level1 = {
 
         //Enemies
         game.load.image('first_wave_enemy', 'assets/enemies/enemy2.png');
+        game.load.image('second_wave_enemy', 'assets/enemies/enemy3.png');
 
         //visual effects
         game.load.spritesheet('explosion', '/assets/explode.png', 128, 128);
@@ -136,6 +138,34 @@ var Level1 = {
         //Launching the first enemy
         game.time.events.add(1000, launchFirstEnemy);
 
+        //Second enemy
+        secondEnemy = game.add.group();
+        secondEnemy.enableBody = true;
+        secondEnemy.physicsBodyType = Phaser.Physics.ARCADE;
+        secondEnemy.createMultiple(30, 'second_wave_enemy');
+        secondEnemy.setAll('anchor.x', 0.5);
+        secondEnemy.setAll('anchor.y', 0.5);
+        secondEnemy.setAll('scale.x', 0.5);
+        secondEnemy.setAll('scale.y', 0.5);
+        secondEnemy.setAll('angle', 180);
+        secondEnemy.forEach(function(enemy){
+            enemy.damageAmount = 20;
+        });
+
+         //  second wave enemy bullets
+         secondEnemyBullets = game.add.group();
+         secondEnemyBullets.enableBody = true;
+         secondEnemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
+         secondEnemyBullets.createMultiple(30, 'second_enemy_bullet');
+         secondEnemyBullets.setAll('alpha', 0.9);
+         secondEnemyBullets.setAll('anchor.x', 0.5);
+         secondEnemyBullets.setAll('anchor.y', 0.5);
+         secondEnemyBullets.setAll('outOfBoundsKill', true);
+         secondEnemyBullets.setAll('checkWorldBounds', true);
+         secondEnemyBullets.forEach(function(enemyBullets){
+             enemyBullets.body.setSize(20, 20);
+         });
+
          //  Shields stat
          shields = game.add.bitmapText(game.world.width - 250, 10, 'spacefont', '' + player.health +'%', 35);
          shields.render = function () {
@@ -206,7 +236,10 @@ var Level1 = {
 
         //collision check
         game.physics.arcade.overlap(player, firstEnemy, shipCollide, null, this);
+        game.physics.arcade.overlap(player, secondEnemy, shipCollide, null, this);
         game.physics.arcade.overlap(firstEnemy, bullets, hitEnemy, null, this);
+        game.physics.arcade.overlap(secondEnemy, bullets, hitEnemy, null, this);
+        game.physics.arcade.overlap(secondEnemyBullets, player, enemyHitsPlayer, null, this);
 
         
         if (! player.alive && gameOver.visible === false) {
@@ -229,6 +262,12 @@ var Level1 = {
                     restart();
                 }
             }
+        }
+        if (!secondEnemyLaunched && score > 100) {
+            secondEnemyLaunched = true;
+            launchSecondEnemy();
+            //  Slow green enemies down now that there are other enemies
+            firstEnemySpacing *= 3;
         }
     }
 }

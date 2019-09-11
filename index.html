@@ -22,6 +22,7 @@ body {
 			render : render
 		});
 
+		var secondEnemyLaunched = false;
 		var playerDeath;
 		var shields;
 		var score = 0;
@@ -40,8 +41,10 @@ body {
 		var DRAG = 400;
 		var MAXSPEED = 400;
 
-
+		var firstEnemyLaunchTimer;
+		var secondEnemyLaunchTimer;
 		var firstEnemySpacing = 1000;
+		var secondEnemySpacing = 3000;
 
 		function preload() {
 
@@ -150,6 +153,66 @@ body {
 			    //  Send another enemy soon
 			    firstEnemyLaunchTimer = game.time.events.add(game.rnd.integerInRange(firstEnemySpacing, firstEnemySpacing + 1000), launchFirstEnemy);
 			}
+
+			function launchSecondEnemy() {
+                var startingY = game.rnd.integerInRange(100, game.height - 100);
+                var verticalSpeed = 180;
+                var spread = 60;
+                var frequency = 70;
+                var verticalSpacing = 70;
+                var numEnemiesInWave = 5;
+                
+
+                //  Launch wave
+                for (var i =0; i < numEnemiesInWave; i++) {
+                    var enemy2 = secondEnemy.getFirstExists(false);
+                    if (enemy2) {
+                        enemy2.startingY = startingY;
+                        enemy2.reset(game.width + verticalSpacing * i, enemy2.y);
+                        enemy2.body.velocity.x = -verticalSpeed;
+
+                        //  Set up firing
+                        var bulletSpeed = 400;
+                        var firingDelay = 2000;
+                        enemy2.bullets = 1;
+                        enemy2.lastShot = 0;
+
+                        //  Update function for each enemy
+                        enemy2.update = function(){
+
+                            //  Wave movement
+                            this.body.y = this.startingY + Math.sin((this.x) / frequency) * spread;
+
+                            //  Squish and rotate ship for illusion of "banking"
+                            bank = Math.cos((this.x + 60) / frequency)
+                            this.scale.y = 0.5 - Math.abs(bank) / 8;
+                            this.angle = bank * 2;
+
+                            //  Fire
+                            enemy2Bullet = secondEnemyBullets.getFirstExists(false);
+                            if (enemy2Bullet &&
+                            this.alive &&
+                            this.bullets &&
+                            this.x < game.width / 2 &&
+                            game.time.now > firingDelay + this.lastShot) {
+                                this.lastShot = game.time.now;
+                                this.bullets--;
+                                enemy2Bullet.reset(this.x, this.y + this.height / 2);
+                                enemy2Bullet.damageAmount = this.damageAmount;
+                                var angle = game.physics.arcade.moveToObject(enemy2Bullet, player, bulletSpeed);
+                                enemy2Bullet.angle = game.math.radToDeg(angle);
+                            }
+
+                            //  Kill enemies once they go off screen
+                            if (this.x == 0) {
+                                this.kill();
+                            }
+                        };
+                    }
+                }
+                //  Send another wave soon
+                secondEnemyLaunchTimer = game.time.events.add(game.rnd.integerInRange(secondEnemySpacing, secondEnemySpacing + 4000), launchSecondEnemy);
+            }
 			
 			 //Adding emmiter trail to the first enemy
 			 function addEnemyEmitterTrail(enemy) {
@@ -194,6 +257,22 @@ body {
                 score += enemy.damageAmount * 10;
                 scoreText.render()
 			}
+
+			function enemyHitsPlayer (player, enemyBullets) {
+                enemyBullets.kill();
+                player.damage(enemyBullets.damageAmount);
+                shields.render();
+                if (player.alive) {
+                    var explosion = explosions.getFirstExists(false);
+                    explosion.reset(player.body.x + player.body.halfWidth, player.body.y + player.body.halfHeight);
+                    explosion.alpha = 0.7;
+                    explosion.play('explosion', 30, false, true);
+                } else {
+                    playerDeath.x = player.x;
+                    playerDeath.y = player.y;
+                    playerDeath.start(false, 1000, 10, 10);
+                }
+            }
 			
 			function restart () {
 
@@ -207,7 +286,8 @@ body {
 				gameOver.visible = false;
 
 				//  Reset pacing
-				firstEnemySpacing = 1000;
+                firstEnemySpacing = 1000;
+                secondEnemyLaunched = false;
 				
 
 				game.state.restart()
