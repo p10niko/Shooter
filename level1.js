@@ -25,6 +25,7 @@ var Level1 = {
         game.load.audio('laser', 'assets/sounds/effects/laser6.mp3');
         game.load.audio('explosion', 'assets/sounds/effects/explosion.mp3');
         game.load.audio('explosion_player', 'assets/sounds/effects/explosion_player.mp3');
+        game.load.audio('shields_down', 'assets/sounds/effects/lowDown.mp3');
 
         //Enemies
         game.load.image('first_wave_enemy', 'assets/enemies/enemy2.png');
@@ -48,6 +49,7 @@ var Level1 = {
         laser = game.add.audio('laser');
         explosionSound = game.add.audio('explosion');
         explosionPlayerSound = game.add.audio('explosion_player');
+        shieldsDown = game.add.audio('shields_down');
         gameOverMusic = game.add.audio('game_over_music');
 
         //starting the background music

@@ -218,7 +218,7 @@ body {
 			 function addEnemyEmitterTrail(enemy) {
                 var enemyTrail = game.add.emitter(enemy.x + 20, enemy.y, 400);
                 enemyTrail.width = 10;
-                enemyTrail.makeParticles('explosion', [1,2,3,4,5]);
+                enemyTrail.makeParticles('explosion', [1,2,3,4,5]); 
                 enemyTrail.setXSpeed(20, -20);
                 enemyTrail.setRotation(50,-50);
                 enemyTrail.setAlpha(0.4, 0, 800);
@@ -229,6 +229,7 @@ body {
 			function shipCollide(player, enemy) {
 				enemy.kill();
 				player.damage(enemy.damageAmount);
+				shieldsDown.play();
                 shields.render();
                 if (player.alive) {
                     var explosion = explosions.getFirstExists(false);
@@ -260,7 +261,8 @@ body {
 
 			function enemyHitsPlayer (player, enemyBullets) {
                 enemyBullets.kill();
-                player.damage(enemyBullets.damageAmount);
+				player.damage(enemyBullets.damageAmount);
+				shieldsDown.play();
                 shields.render();
                 if (player.alive) {
                     var explosion = explosions.getFirstExists(false);
