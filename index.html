@@ -75,29 +75,135 @@ body {
 		}
 
 		function fireBullet() {
-			//  To avoid them being allowed to fire too fast we set a time limit
-			if (game.time.now > bulletTimer) {
-				var BULLET_SPEED = 400;
-				var BULLET_SPACING = 250;
-				//  Grab the first bullet we can from the pool
-				var bullet = bullets.getFirstExists(false);
+                switch (player.weaponLevel) {
+                    case 1:
+                    //  To avoid them being allowed to fire too fast we set a time limit
+                    if (game.time.now > bulletTimer)
+                    {
+                        var BULLET_SPEED = 400;
+                        var BULLET_SPACING = 250;
+                        //  Grab the first bullet we can from the pool
+                        var bullet = bullets.getFirstExists(false);
 
-				if (bullet) {
-					//  And fire it
-					//  Make bullet come out of tip of ship with right angle
-					var bulletOffset = 20 * Math.sin(game.math
-							.degToRad(player.angle));
-					bullet.reset(player.x + bulletOffset, player.y);
-					bullet.angle = player.angle;
-					game.physics.arcade.velocityFromAngle(bullet.angle,
-							BULLET_SPEED, bullet.body.velocity);
-					bullet.body.velocity.y += player.body.velocity.y;
+                        if (bullet)
+                        {
+                            //  And fire it
+                            //  Make bullet come out of tip of ship with right angle
+                            var bulletOffset = 20 * Math.sin(game.math.degToRad(player.angle));
+                            bullet.reset(player.x + bulletOffset, player.y);
+                            bullet.angle = player.angle;
+                            game.physics.arcade.velocityFromAngle(bullet.angle, BULLET_SPEED, bullet.body.velocity);
+                            bullet.body.velocity.y += player.body.velocity.y;
 
-					bulletTimer = game.time.now + BULLET_SPACING;
-					laser.play();
-				}
+                            bulletTimer = game.time.now + BULLET_SPACING;
+
+                            laser.play();
+                        }
+                    }
+                    break;
+
+                    case 2:
+                    if (game.time.now > bulletTimer) {
+                        var BULLET_SPEED = 500;
+                        var BULLET_SPACING = 250;
+
+                        for (var i = 0; i < 3; i++) {
+                            var bullet = bullets.getFirstExists(false);
+                            if (bullet) {
+                                //  Make bullet come out of tip of ship with right angle
+                                var bulletOffset = 20 * Math.sin(game.math.degToRad(player.angle));
+                                bullet.reset(player.x + bulletOffset, player.y);
+                                //  "Spread" angle of 1st and 3rd bullets
+                                var spreadAngle;
+                                if (i === 0) spreadAngle = -20;
+                                if (i === 1) spreadAngle = 0;
+                                if (i === 2) spreadAngle = 20;
+                                bullet.angle = player.angle + spreadAngle;
+                                game.physics.arcade.velocityFromAngle(spreadAngle, BULLET_SPEED, bullet.body.velocity)
+                                bullet.body.velocity.y += player.body.velocity.y;
+                            }
+                            bulletTimer = game.time.now + BULLET_SPACING;
+                            laser2.play();
+                            
+                        }
+                    }
+					break;
+					
+					case 3:
+					if (game.time.now > bulletTimer) {
+                        var BULLET_SPEED = 600;
+                        var BULLET_SPACING = 200;
+
+                        for (var i = 0; i < 5; i++) {
+                            var bullet = bullets.getFirstExists(false);
+                            if (bullet) {
+                                //  Make bullet come out of tip of ship with right angle
+                                var bulletOffset = 20 * Math.sin(game.math.degToRad(player.angle));
+                                bullet.reset(player.x + bulletOffset, player.y);
+                                //  "Spread" angle of 1st and 3rd bullets
+                                var spreadAngle;
+                                if (i === 0) spreadAngle = -20;
+                                if (i === 1) spreadAngle = 0;
+								if (i === 2) spreadAngle = 20;
+								if (i === 3) spreadAngle = -90;
+								if (i === 4) spreadAngle = 90;
+                                bullet.angle = player.angle + spreadAngle;
+                                game.physics.arcade.velocityFromAngle(spreadAngle, BULLET_SPEED, bullet.body.velocity)
+                                bullet.body.velocity.y += player.body.velocity.y;
+                            }
+                            bulletTimer = game.time.now + BULLET_SPACING;
+                            laser3.play();
+                            
+                        }
+                    }
+					break;
+
+                    case 4:
+                    var timer = new Phaser.Timer(game, true);
+                    game.time.events.add(5000, weaponLevel3, this);
+                    if (game.time.now > bulletTimer){
+                        var BULLET_SPEED = 2000 - Math.abs(player.body.acceleration.x + 1000);
+                        var BULLET_SPACING = 0;
+                       
+                        var bullet = laserBeam.getFirstExists(false);
+                        if (bullet){
+                            var bulletOffset = 20 * Math.sin(game.math.degToRad(player.angle));
+                            bullet.reset(player.x + bulletOffset, player.y);
+                            bullet.angle = player.angle;
+                            game.physics.arcade.velocityFromAngle(bullet.angle, BULLET_SPEED, bullet.body.velocity);
+                        }
+                        bulletTimer = game.time.now + BULLET_SPACING;
+                        laserBeamSound.play();
+                    }
+                    break;
+                }
 			}
-		}
+			
+			function weaponLevel3(){
+				laserBeamSound.stop();
+                player.weaponLevel = 3;
+                
+			}
+			
+			function launchWeaponUpgrade(){
+                var timeArray = new Array(10000, 15000, 8000, 12000, 18000);
+                var BULLET_UPGRADE_SPEED = -200;
+                var item = bulletUpgrade.getFirstExists(false);
+                if (item) {
+                    item.reset(game.width, game.rnd.integerInRange(0, game.height));
+                    item.body.velocity.x = BULLET_UPGRADE_SPEED;  
+                }
+                clearInterval(timer);
+                timer = setInterval(launchWeaponUpgrade, randRange(timeArray));
+			}
+			
+			function weaponUpgrade(player, bulletUpgrade){
+                bulletUpgrade.kill();
+                if(player.weaponLevel < 4){
+                    player.weaponLevel++;
+                }
+                weaponApgradeSound.play();
+            }
 
 		//Launching the first enemy
 		function launchFirstEnemy() {

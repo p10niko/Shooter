@@ -15,6 +15,7 @@ var Level1 = {
         
         //loading bullets
         game.load.image('bullet', 'assets/bullets/bullet.png');
+        game.load.image('laser-beam', 'assets/bullets/bullet.png');
         game.load.image('second_enemy_bullet', 'assets/bullets/bullet1.png');
 
         //background music
@@ -23,9 +24,16 @@ var Level1 = {
 
         //sound effects
         game.load.audio('laser', 'assets/sounds/effects/laser6.mp3');
+        game.load.audio('laser2', 'assets/sounds/effects/laser2.mp3');
+        game.load.audio('laser3', 'assets/sounds/effects/laser3.mp3');
+        game.load.audio('laser_beam', 'assets/sounds/effects/laser_beam.mp3');
+        game.load.audio('weapon_upgrade_sound', 'assets/sounds/effects/phaserUp6.mp3');
         game.load.audio('explosion', 'assets/sounds/effects/explosion.mp3');
         game.load.audio('explosion_player', 'assets/sounds/effects/explosion_player.mp3');
         game.load.audio('shields_down', 'assets/sounds/effects/lowDown.mp3');
+
+        //items
+        game.load.image('bullet_upgrade', 'assets/bullets/bold_silver.png');
 
         //Enemies
         game.load.image('first_wave_enemy', 'assets/enemies/enemy2.png');
@@ -47,6 +55,11 @@ var Level1 = {
 
         levelbackgroundmusic = game.add.audio('level1background', 1, true);
         laser = game.add.audio('laser');
+        laser2 = game.add.audio('laser2');
+        laser3 = game.add.audio('laser3');
+        laserBeamSound = game.add.audio('laser_beam');
+        weaponUpgradeSound = game.add.audio('weapon_upgrade_sound');
+        weaponUpgradeSound.volume = 4;
         explosionSound = game.add.audio('explosion');
         explosionPlayerSound = game.add.audio('explosion_player');
         shieldsDown = game.add.audio('shields_down');
@@ -68,12 +81,37 @@ var Level1 = {
         bullets.setAll('anchor.y', 1);
         bullets.setAll('outOfBoundsKill', true);
         bullets.setAll('checkWorldBounds', true);
+
+        //  Our beam group
+        laserBeam = game.add.group();
+        laserBeam.enableBody = true;
+        laserBeam.physicsBodyType = Phaser.Physics.ARCADE;
+        laserBeam.createMultiple(800, 'laser-beam');
+        laserBeam.setAll('anchor.x', 0.5);
+        laserBeam.setAll('anchor.y', 1);
+        laserBeam.setAll('outOfBoundsKill', true);
+        laserBeam.setAll('checkWorldBounds', true);
+
+        //upgrade item group
+        bulletUpgrade = game.add.group();
+        bulletUpgrade.enableBody = true;
+        bulletUpgrade.physicsBodyType = Phaser.Physics.ARCADE;
+        bulletUpgrade.createMultiple(1, 'bullet_upgrade');
+        bulletUpgrade.setAll('anchor.x', 0.5);
+        bulletUpgrade.setAll('anchor.y', 0.5);
+        bulletUpgrade.setAll('scale.x', 0.5);
+        bulletUpgrade.setAll('scale.y', 0.5);
+        bulletUpgrade.setAll('outOfBoundsKill', true);
+        bulletUpgrade.setAll('checkWorldBounds', true);
+        bulletUpgrade.forEach(function(item){ 
+            item.body.setSize(20, 20);
+        });
         
 
         //  The hero!
         player = game.add.sprite(100, game.height / 2, 'ship');
         player.health = 100;
-        player.weaponLevel = 1;
+        player.weaponLevel = 4;
         player.anchor.setTo(0.5, 0.5);
         game.physics.enable(player, Phaser.Physics.ARCADE);
         player.body.maxVelocity.setTo(MAXSPEED, MAXSPEED);
@@ -238,10 +276,13 @@ var Level1 = {
         shipTrail.x = player.x - 20;
 
         //collision check
+        game.physics.arcade.overlap(player, bulletUpgrade, weaponUpgrade, null, this);
         game.physics.arcade.overlap(player, firstEnemy, shipCollide, null, this);
         game.physics.arcade.overlap(player, secondEnemy, shipCollide, null, this);
         game.physics.arcade.overlap(firstEnemy, bullets, hitEnemy, null, this);
         game.physics.arcade.overlap(secondEnemy, bullets, hitEnemy, null, this);
+        game.physics.arcade.overlap(firstEnemy, laserBeam, hitEnemy, null, this);
+        game.physics.arcade.overlap(secondEnemy, laserBeam, hitEnemy, null, this);
         game.physics.arcade.overlap(secondEnemyBullets, player, enemyHitsPlayer, null, this);
 
         
