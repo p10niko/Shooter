@@ -7,7 +7,7 @@ var Menu = {
 	    game.load.crossOrigin = 'p10niko';
 
         //loading the menu theme
-		game.load.audio('menu_theme', 'assets/music/level3.ogg');
+		game.load.audio('menu_theme', 'assets/sounds/music/level3.ogg');
 		
 		game.load.image('background', 'assets/menu_back.jpg');
 		
@@ -31,7 +31,7 @@ var Menu = {
 
 		background = game.add.tileSprite(0, 0, 800, 600, 'background');
 
-		titleText = game.add.bitmapText(game.world.centerX, 50, 'spacefont', 'To the edge of Cosmos', 60);
+		titleText = game.add.bitmapText(game.world.centerX, 50, 'spacefont', 'Quest to the outer space', 60);
 		titleText.anchor.set(0.5, 0.5);
 
 		button1 = game.add.sprite(game.world.centerX, 200, 'levels');	
