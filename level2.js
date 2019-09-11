@@ -8,7 +8,7 @@ var Level2 = {
         game.load.crossOrigin = 'p10niko';
 
         //loading background "Starfield"
-        game.load.image('starfield', 'assets/starfield2.png');
+        game.load.image('starfield', 'assets/starfield2.jpg');
 
         //loading ship
         game.load.image('ship', 'assets/ship.png');
@@ -36,7 +36,7 @@ var Level2 = {
         game.load.image('bullet_upgrade', 'assets/items/bold_silver.png');
 
         //Enemies
-        game.load.image('first_wave_enemy', 'assets/enemies/enemy2.png');
+        game.load.image('first_wave_enemy', 'assets/enemies/blue-enemy.png');
         game.load.image('second_wave_enemy', 'assets/enemies/enemy3.png');
 
         //visual effects
@@ -170,7 +170,7 @@ var Level2 = {
         firstEnemy.setAll('checkWorldBounds', true);
         firstEnemy.forEach(function(enemy){
             addEnemyEmitterTrail(enemy);
-                enemy.damageAmount = 10;
+                enemy.damageAmount = 20;
                 enemy.events.onKilled.add(function(){
                 enemy.trail.kill();
             });
