@@ -7,7 +7,7 @@ var Menu = {
 	    game.load.crossOrigin = 'p10niko';
 
         //loading the menu theme
-		game.load.audio('menu_theme', 'assets/sounds/music/level3.ogg');
+		game.load.audio('menu_theme', 'assets/sounds/music/level4.ogg');
 		
 		game.load.image('background', 'assets/menu_back.jpg');
 		
