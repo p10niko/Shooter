@@ -20,6 +20,9 @@ var Level1 = {
         game.load.audio('level1background', 'assets/sounds/music/level1.ogg');
 
         game.load.audio('laser', 'assets/sounds/effects/laser6.mp3');
+
+        //Enemies
+        game.load.image('first_wave_enemy', '/assets/enemies/enemy2.png');
         
     },
 
@@ -77,6 +80,29 @@ var Level1 = {
         shipTrail.setScale(0.05, 0.4, 0.05, 0.4, 2000,
                 Phaser.Easing.Quintic.Out);
         shipTrail.start(false, 5000, 10);
+
+        //Enemy1
+        firstEnemy = game.add.group();
+        firstEnemy.enableBody = true;
+        firstEnemy.physicsBodyType = Phaser.Physics.ARCADE;
+        firstEnemy.createMultiple(10, 'first_wave_enemy');
+        firstEnemy.setAll('anchor.x', 0.5);
+        firstEnemy.setAll('anchor.y', 0.5);
+        firstEnemy.setAll('scale.x', 0.5);
+        firstEnemy.setAll('scale.y', 0.5);
+        firstEnemy.setAll('angle', 0);
+        firstEnemy.setAll('outOfBoundsKill', true);
+        firstEnemy.setAll('checkWorldBounds', true);
+        firstEnemy.forEach(function(enemy){
+            addEnemyEmitterTrail(enemy);
+                enemy.damageAmount = 10;
+                enemy.events.onKilled.add(function(){
+                enemy.trail.kill();
+            });
+        });
+        
+        //Launching the first enemy
+        game.time.events.add(1000, launchFirstEnemy);
        
     },
 

@@ -35,6 +35,9 @@ body {
 		var DRAG = 400;
 		var MAXSPEED = 400;
 
+
+		var firstEnemySpacing = 1000;
+
 		function preload() {
 
 			//  We need this because the assets are on github pages
@@ -87,6 +90,73 @@ body {
 				}
 			}
 		}
+
+		//Launching the first enemy
+		function launchFirstEnemy() {
+                var ENEMY_SPEED = -300;
+
+                var enemy = firstEnemy.getFirstExists(false);
+                if (enemy) {
+                    enemy.reset(game.width, game.rnd.integerInRange(0, game.height));
+                    enemy.body.velocity.y = game.rnd.integerInRange(-300, 300);
+                    enemy.body.velocity.x = ENEMY_SPEED;
+                    enemy.body.drag.y = 100;
+                    enemy.trail.start(false, 800, 1);
+
+                    //  Set up firing
+                    var bullet1Speed = 400;
+                    var firing1Delay = 2000;
+                    enemy.bullets = 1;
+                    enemy.lastShot = 0;
+
+                    enemy.update = function(){
+                        enemy.angle = 270 - game.math.radToDeg(Math.atan2(enemy.body.velocity.x, enemy.body.velocity.y));
+                        enemy.trail.y = enemy.y;
+                        enemy.trail.x = enemy.x + 20;
+
+                        if(level == 2){
+
+                                //  Fire
+                                enemyBullet = secondEnemyBullets.getFirstExists(false);
+                                if (enemyBullet &&
+                                this.alive &&
+                                this.bullets &&
+                                this.x < game.width / 2 &&
+                                game.time.now > firing1Delay + this.lastShot) {
+                                    this.lastShot = game.time.now;
+                                    this.bullets--;
+                                    enemyBullet.reset(this.x, this.y + this.height / 2);
+                                    enemyBullet.damageAmount = this.damageAmount;
+                                    var angle = game.physics.arcade.moveToObject(enemyBullet, player, bullet1Speed);
+                                    enemyBullet.angle = game.math.radToDeg(angle);
+                                }
+
+                                //  Kill enemies once they go off screen
+                                if (enemy.x == 0) {
+                                    enemy.kill();
+                                    enemy.trail.kill();
+                                }
+                        }
+                    }
+
+                }
+
+
+			    //  Send another enemy soon
+			    firstEnemyLaunchTimer = game.time.events.add(game.rnd.integerInRange(firstEnemySpacing, firstEnemySpacing + 1000), launchFirstEnemy);
+			}
+			
+			 //Adding emmiter trail to the first enemy
+			 function addEnemyEmitterTrail(enemy) {
+                var enemyTrail = game.add.emitter(enemy.x + 20, enemy.y, 400);
+                enemyTrail.width = 10;
+                enemyTrail.makeParticles('explosion', [1,2,3,4,5]);
+                enemyTrail.setXSpeed(20, -20);
+                enemyTrail.setRotation(50,-50);
+                enemyTrail.setAlpha(0.4, 0, 800);
+                enemyTrail.setScale(0.01, 0.1, 0.01, 0.1, 1000, Phaser.Easing.Quintic.Out);
+                enemy.trail = enemyTrail;
+            }
 	</script>
 </body>
 </html>
