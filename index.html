@@ -7,7 +7,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	background-color: #000200;
+	background-color: #000;
 }
 </style>
 <script src="level1.js"></script>
@@ -21,6 +21,10 @@ body {
 			update : update,
 			render : render
 		});
+
+		var shields;
+		var score = 0;
+        var scoreText;
 
 		var player;
 		var starfield;
@@ -159,8 +163,9 @@ body {
 			}
 			
 			function shipCollide(player, enemy) {
-                enemy.kill();
-                
+				enemy.kill();
+				player.damage(enemy.damageAmount);
+                shields.render();
                 if (player.alive) {
                     var explosion = explosions.getFirstExists(false);
                     explosion.reset(player.body.x + player.body.halfWidth, player.body.y + player.body.halfHeight);
@@ -179,6 +184,10 @@ body {
                 enemy.damage(enemy.damageAmount);
 				bullet.kill();
 				explosionSound.play();
+
+				// Increase score
+                score += enemy.damageAmount * 10;
+                scoreText.render()
             }
 	</script>
 </body>

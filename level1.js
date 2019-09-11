@@ -28,6 +28,9 @@ var Level1 = {
 
         //visual effects
         game.load.spritesheet('explosion', '/assets/explode.png', 128, 128);
+
+        //Need to create a new font
+        game.load.bitmapFont('spacefont', '/assets/spacefont/spacefont.png', '/assets/spacefont/spacefont.xml');
         
     },
 
@@ -120,6 +123,20 @@ var Level1 = {
 
         //Launching the first enemy
         game.time.events.add(1000, launchFirstEnemy);
+
+         //  Shields stat
+         shields = game.add.bitmapText(game.world.width - 250, 10, 'spacefont', '' + player.health +'%', 35);
+         shields.render = function () {
+             shields.text = 'Shields: ' + Math.max(player.health, 0) +'%';
+         };
+         shields.render();
+ 
+         //  Score
+         scoreText = game.add.bitmapText(10, 10, 'spacefont', '', 35);
+         scoreText.render = function () {
+             scoreText.text = 'Score: ' + score;
+         };
+         scoreText.render();
        
     },
 
