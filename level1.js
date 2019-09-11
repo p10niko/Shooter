@@ -31,8 +31,8 @@ var Level1 = {
         //visual effects
         game.load.spritesheet('explosion', '/assets/explode.png', 128, 128);
 
-        //Need to create a new font
-        game.load.bitmapFont('spacefont', '/assets/spacefont/spacefont.png', '/assets/spacefont/spacefont.xml');
+        //Created my font
+        game.load.bitmapFont('spacefont', '/assets/spacefont/font.png', '/assets/spacefont/font.fnt');
         
     },
 
