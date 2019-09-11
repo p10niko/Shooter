@@ -25,7 +25,7 @@ var Level1 = {
         //sound effects
         game.load.audio('laser', 'assets/sounds/effects/laser6.mp3');
         game.load.audio('laser2', 'assets/sounds/effects/laser2.mp3');
-        game.load.audio('laser3', 'assets/sounds/effects/laser3.mp3');
+        game.load.audio('laser3', 'assets/sounds/effects/laser4.mp3');
         game.load.audio('laser_beam', 'assets/sounds/effects/laser_beam.mp3');
         game.load.audio('weapon_upgrade_sound', 'assets/sounds/effects/phaserUp6.mp3');
         game.load.audio('explosion', 'assets/sounds/effects/explosion.mp3');
@@ -33,7 +33,7 @@ var Level1 = {
         game.load.audio('shields_down', 'assets/sounds/effects/lowDown.mp3');
 
         //items
-        game.load.image('bullet_upgrade', 'assets/bullets/bold_silver.png');
+        game.load.image('bullet_upgrade', 'assets/items/bold_silver.png');
 
         //Enemies
         game.load.image('first_wave_enemy', 'assets/enemies/enemy2.png');
@@ -111,7 +111,7 @@ var Level1 = {
         //  The hero!
         player = game.add.sprite(100, game.height / 2, 'ship');
         player.health = 100;
-        player.weaponLevel = 4;
+        player.weaponLevel = 1;
         player.anchor.setTo(0.5, 0.5);
         game.physics.enable(player, Phaser.Physics.ARCADE);
         player.body.maxVelocity.setTo(MAXSPEED, MAXSPEED);
