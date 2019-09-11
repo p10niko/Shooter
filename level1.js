@@ -18,6 +18,8 @@ var Level1 = {
 
         //background music
         game.load.audio('level1background', 'assets/sounds/music/level1.ogg');
+
+        game.load.audio('laser', 'assets/sounds/effects/laser6.mp3');
         
     },
 
@@ -27,9 +29,11 @@ var Level1 = {
 
         game.scale.pageAlignHorizontally = true;
 
-        //starting the background music
         levelbackgroundmusic = game.add.audio('level1background', 1, true);
-        levelbackgroundmusic.play();
+        laser = game.add.audio('laser');
+
+         //starting the background music
+         levelbackgroundmusic.play();
                 
         //  The scrolling starfield background
         starfield = game.add.tileSprite(0, 0, 800, 600, 'starfield');
