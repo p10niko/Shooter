@@ -19,10 +19,15 @@ var Level1 = {
         //background music
         game.load.audio('level1background', 'assets/sounds/music/level1.ogg');
 
+        //sound effects
         game.load.audio('laser', 'assets/sounds/effects/laser6.mp3');
+        game.load.audio('explosion', 'assets/sounds/effects/explosion.mp3');
 
         //Enemies
         game.load.image('first_wave_enemy', '/assets/enemies/enemy2.png');
+
+        //visual effects
+        game.load.spritesheet('explosion', '/assets/explode.png', 128, 128);
         
     },
 
@@ -34,6 +39,7 @@ var Level1 = {
 
         levelbackgroundmusic = game.add.audio('level1background', 1, true);
         laser = game.add.audio('laser');
+        explosion = game.add.audio('explosion');
 
          //starting the background music
          levelbackgroundmusic.play();
@@ -81,6 +87,17 @@ var Level1 = {
                 Phaser.Easing.Quintic.Out);
         shipTrail.start(false, 5000, 10);
 
+        //  An explosion pool
+        explosions = game.add.group();
+        explosions.enableBody = true;
+        explosions.physicsBodyType = Phaser.Physics.ARCADE;
+        explosions.createMultiple(300, 'explosion');
+        explosions.setAll('anchor.x', 0.5);
+        explosions.setAll('anchor.y', 0.5);
+        explosions.forEach( function(explosion) {
+            explosion.animations.add('explosion');
+        });
+
         //Enemy1
         firstEnemy = game.add.group();
         firstEnemy.enableBody = true;
@@ -100,7 +117,7 @@ var Level1 = {
                 enemy.trail.kill();
             });
         });
-        
+
         //Launching the first enemy
         game.time.events.add(1000, launchFirstEnemy);
        
@@ -151,5 +168,9 @@ var Level1 = {
         //  Keep the shipTrail lined up with the ship
         shipTrail.y = player.y;
         shipTrail.x = player.x - 20;
+
+        //collision check
+        game.physics.arcade.overlap(player, firstEnemy, shipCollide, null, this);
+        game.physics.arcade.overlap(firstEnemy, bullets, hitEnemy, null, this);
     }
 }
