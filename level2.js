@@ -190,7 +190,7 @@ var Level2 = {
         secondEnemy.setAll('scale.y', 0.5);
         secondEnemy.setAll('angle', 180);
         secondEnemy.forEach(function(enemy){
-            enemy.damageAmount = 20;
+            enemy.damageAmount = 30;
         });
 
          //  second wave enemy bullets
