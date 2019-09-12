@@ -70,8 +70,8 @@ var Level1 = {
         shieldsDown = game.add.audio('shields_down');
         shieldsDown.volume = 5;
         gameOverMusic = game.add.audio('game_over_music');
-        bossMusic = game.add.audio('boss_music');
-        endLevelMusic = game.add.audio('end_level_music', 1, true);
+        bossMusic = game.add.audio('boss_music', 1, true);
+        endLevelMusic = game.add.audio('end_level_music', 1, false);
 
         //starting the background music
         levelbackgroundmusic.play();
@@ -271,11 +271,9 @@ var Level1 = {
                 firstEnemySpacing = 2500;
                 secondEnemySpacing = 1000;
 
-                bossMusic.stop();
                 bossBullets.callAll('kill');
                 firstEnemy.callAll('kill');
                 secondEnemy.callAll('kill');
-                //endLevel.play();
                 
                 game.time.events.add(4000, level2);
             }
@@ -378,7 +376,6 @@ var Level1 = {
 
         if(bossLaunched && boss.health < 5){
             bossMusic.stop();
-            endLevelMusic.play();
             boss.finishOff();
         }
 
@@ -388,8 +385,9 @@ var Level1 = {
             //  dramatic pause before boss
             levelbackgroundmusic.stop();
 			game.time.events.add(2000, function(){
-				bossLaunched = true;
+				bossLaunched= true;
                 launchBoss();
+                bossMusic.play();
             });
             
 		}
@@ -454,6 +452,7 @@ var Level1 = {
         
         if (! player.alive && gameOver.visible === false) {
             levelbackgroundmusic.stop();
+            bossMusic.stop();
             explosionPlayerSound.play();
             gameOverMusic.play();
             gameOver.visible = true;

@@ -406,11 +406,10 @@ body {
 			}
 			
 			function launchBoss() {
-				bossMusic.play();
                 boss.reset(game.width + 150, game.rnd.integerInRange(50, 550));
                 booster.start(false, 1000, 10);
                 boss.health = 1500;
-                bossBulletTimer = game.time.now + 5000;
+				bossBulletTimer = game.time.now + 5000;
 			}
 			
 			function level2(){
@@ -419,7 +418,8 @@ body {
                 firstEnemySpacing = 1000;
                 secondEnemyLaunched = false;
                 bossLaunched = false;
-                player.weaponLevel = 1;
+				player.weaponLevel = 1;
+				endLevelMusic.play();
                 game.state.start('level2');
             }
 			
