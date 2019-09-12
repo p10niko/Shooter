@@ -38,7 +38,7 @@ var Level2 = {
         //Enemies
         game.load.image('first_wave_enemy', 'assets/enemies/blue-enemy.png');
         game.load.image('second_wave_enemy', 'assets/enemies/green-enemy.png');
-        game.load.image('meteor', 'assets/astroid.png');
+        game.load.image('meteor', 'assets/enemies/astroid.png');
 
         //visual effects
         game.load.spritesheet('explosion', '/assets/explode.png', 128, 128);
@@ -213,10 +213,10 @@ var Level2 = {
         meteor.enableBody = true;
         meteor.physicsBodyType = Phaser.Physics.ARCADE;
         meteor.createMultiple(2, 'meteor');
-        meteor.setAll('anchor.x', 0.5);
-        meteor.setAll('anchor.y', 0.5);
-        meteor.setAll('scale.x', 0.5);
-        meteor.setAll('scale.y', 0.5);
+        meteor.setAll('anchor.x', 0.2);
+        meteor.setAll('anchor.y', 0.2);
+        meteor.setAll('scale.x', 0.2);
+        meteor.setAll('scale.y', 0.2);
         meteor.setAll('outOfBoundsKill', true);
         meteor.setAll('checkWorldBounds', true);
         meteor.forEach(function(meteor){
