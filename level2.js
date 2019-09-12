@@ -38,6 +38,7 @@ var Level2 = {
         //Enemies
         game.load.image('first_wave_enemy', 'assets/enemies/blue-enemy.png');
         game.load.image('second_wave_enemy', 'assets/enemies/green-enemy.png');
+        game.load.image('meteor', 'assets/astroid.png');
 
         //visual effects
         game.load.spritesheet('explosion', '/assets/explode.png', 128, 128);
@@ -207,6 +208,22 @@ var Level2 = {
              enemyBullets.body.setSize(20, 20);
          });
 
+         //meteor group
+        meteor = game.add.group();
+        meteor.enableBody = true;
+        meteor.physicsBodyType = Phaser.Physics.ARCADE;
+        meteor.createMultiple(2, 'meteor');
+        meteor.setAll('anchor.x', 0.5);
+        meteor.setAll('anchor.y', 0.5);
+        meteor.setAll('scale.x', 0.5);
+        meteor.setAll('scale.y', 0.5);
+        meteor.setAll('outOfBoundsKill', true);
+        meteor.setAll('checkWorldBounds', true);
+        meteor.forEach(function(meteor){
+            meteor.body.setSize(30, 30, 30, 30);
+            meteor.damageAmount = 40;
+        });
+
          //  Shields stat
          shields = game.add.bitmapText(game.world.width - 250, 10, 'spacefont', '' + player.health +'%', 35);
          shields.render = function () {
@@ -284,6 +301,8 @@ var Level2 = {
         game.physics.arcade.overlap(firstEnemy, laserBeam, hitEnemy, null, this);
         game.physics.arcade.overlap(secondEnemy, laserBeam, hitEnemy, null, this);
         game.physics.arcade.overlap(secondEnemyBullets, player, enemyHitsPlayer, null, this);
+
+        game.physics.arcade.overlap(player, meteor, shipCollide, null, this);
 
         
         if (! player.alive && gameOver.visible === false) {

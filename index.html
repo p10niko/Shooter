@@ -194,7 +194,8 @@ body {
                  return newTime;
             }
 
-            var timer = setInterval(launchWeaponUpgrade, 12000);
+			var timer = setInterval(launchWeaponUpgrade, 12000);
+			var timer2 = setInterval(launchMeteor, 8000);
 			
 			function launchWeaponUpgrade(){
                 var timeArray = new Array(12000, 17000, 8000, 20000, 18000);
@@ -207,6 +208,18 @@ body {
                 clearInterval(timer);
                 timer = setInterval(launchWeaponUpgrade, randRange(timeArray));
 			}
+
+			function launchMeteor(){
+                var timeArray3 = new Array(17000, 20000, 25000, 21000, 18000);
+                var METEOR_SPEED = -400;
+                var comet = meteor.getFirstExists(false);
+                if (comet) {
+                    comet.reset(game.width, game.rnd.integerInRange(0, game.height));
+                    comet.body.velocity.x = METEOR_SPEED;  
+                }
+                clearInterval(timer3);
+                timer3 = setInterval(launchMeteor, randRange(timeArray3));
+            }
 			
 			function weaponUpgrade(player, bulletUpgrade){
                 bulletUpgrade.kill();
