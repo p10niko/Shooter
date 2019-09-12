@@ -309,7 +309,7 @@ var Level2 = {
                 this.lastShot = game.time.now;
                 this.bullets--;
                 bossBullet.reset(this.x, this.y - this.height / 3);
-                bossBullet.damageAmount = 2;
+                bossBullet.damageAmount = 10;
                 var angle = game.physics.arcade.moveToObject(bossBullet, player, 300);
                 bossBullet.angle = game.math.radToDeg(angle);
             }
@@ -461,6 +461,10 @@ var Level2 = {
         game.physics.arcade.overlap(firstEnemy, laserBeam, hitEnemy, null, this);
         game.physics.arcade.overlap(secondEnemy, laserBeam, hitEnemy, null, this);
         game.physics.arcade.overlap(secondEnemyBullets, player, enemyHitsPlayer, null, this);
+
+        game.physics.arcade.overlap(boss, laserBeam, hitEnemy, null, this);
+        game.physics.arcade.overlap(boss, bullets, hitEnemy, null, this);
+        game.physics.arcade.overlap(bossBullets, player, enemyHitsPlayer, null, this);
 
         game.physics.arcade.overlap(player, meteor, shipCollide, null, this);
 
