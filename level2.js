@@ -34,6 +34,7 @@ var Level2 = {
         game.load.audio('explosion', 'assets/sounds/effects/explosion.mp3');
         game.load.audio('explosion_player', 'assets/sounds/effects/explosion_player.mp3');
         game.load.audio('shields_down', 'assets/sounds/effects/lowDown.mp3');
+        game.load.audio('shields_up', 'assets/sounds/effects/pepSound3.mp3');
 
         //items
         game.load.image('bullet_upgrade', 'assets/items/bold_silver.png');
@@ -73,6 +74,8 @@ var Level2 = {
         gameOverMusic = game.add.audio('game_over_music');
         bossMusic = game.add.audio('boss_music', 1, true);
         endLevelMusic = game.add.audio('end_level_music', 1, false);
+        healthUpgradeSound = game.add.audio('shields_up');
+        healthUpgradeSound.volume = 4;
 
         //starting the background music
         levelbackgroundmusic.play();
@@ -121,12 +124,12 @@ var Level2 = {
         healthUpgrade.createMultiple(1, 'health_upgrade');
         healthUpgrade.setAll('anchor.x', 0.5);
         healthUpgrade.setAll('anchor.y', 0.5);
-        healthUpgrade.setAll('scale.x', 1);
-        healthUpgrade.setAll('scale.y', 1);
+        healthUpgrade.setAll('scale.x', 0.5);
+        healthUpgrade.setAll('scale.y', 0.5);
         healthUpgrade.setAll('outOfBoundsKill', true);
         healthUpgrade.setAll('checkWorldBounds', true);
         healthUpgrade.forEach(function(item){ 
-            item.body.setSize(40, 40);
+            item.body.setSize(20, 20);
         });
         
 
