@@ -446,6 +446,12 @@ body {
 			}
 			
 			function creditsScene(){
+                score = 0;
+                player.health = 100;
+                firstEnemySpacing = 1000;
+                secondEnemyLaunched = false;
+                bossLaunched = false;
+				player.weaponLevel = 1;
                 game.state.start('credits');
 			}
 			

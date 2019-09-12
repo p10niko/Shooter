@@ -194,7 +194,7 @@ var Level2 = {
         firstEnemy.setAll('outOfBoundsKill', true);
         firstEnemy.setAll('checkWorldBounds', true);
         firstEnemy.forEach(function(enemy){
-            enemy.body.setSize(30, 30);
+            enemy.body.setSize(50, 50);
             addEnemyEmitterTrail(enemy);
                 enemy.damageAmount = 20;
                 enemy.events.onKilled.add(function(){
