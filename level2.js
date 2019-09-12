@@ -37,6 +37,7 @@ var Level2 = {
 
         //items
         game.load.image('bullet_upgrade', 'assets/items/bold_silver.png');
+        game.load.image('health_upgrade', 'assets/items/shield_silver.png');
 
         //Enemies
         game.load.image('first_wave_enemy', 'assets/enemies/blue-enemy.png');
@@ -112,6 +113,20 @@ var Level2 = {
         bulletUpgrade.setAll('checkWorldBounds', true);
         bulletUpgrade.forEach(function(item){ 
             item.body.setSize(20, 20);
+        });
+
+        healthUpgrade = game.add.group();
+        healthUpgrade.enableBody = true;
+        healthUpgrade.physicsBodyType = Phaser.Physics.ARCADE;
+        healthUpgrade.createMultiple(1, 'health_upgrade');
+        healthUpgrade.setAll('anchor.x', 0.5);
+        healthUpgrade.setAll('anchor.y', 0.5);
+        healthUpgrade.setAll('scale.x', 1);
+        healthUpgrade.setAll('scale.y', 1);
+        healthUpgrade.setAll('outOfBoundsKill', true);
+        healthUpgrade.setAll('checkWorldBounds', true);
+        healthUpgrade.forEach(function(item){ 
+            item.body.setSize(40, 40);
         });
         
 
@@ -454,6 +469,8 @@ var Level2 = {
 
         //collision check
         game.physics.arcade.overlap(player, bulletUpgrade, weaponUpgrade, null, this);
+        game.physics.arcade.overlap(player, healthUpgrade, healthRefill, null, this);
+
         game.physics.arcade.overlap(player, firstEnemy, shipCollide, null, this);
         game.physics.arcade.overlap(player, secondEnemy, shipCollide, null, this);
         game.physics.arcade.overlap(firstEnemy, bullets, hitEnemy, null, this);
