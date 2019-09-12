@@ -291,7 +291,7 @@ var Level2 = {
                 firstEnemy.callAll('kill');
                 secondEnemy.callAll('kill');
                 
-                game.time.events.add(4000, credits);
+                game.time.events.add(4000, creditsScene);
             }
         };
 
@@ -395,7 +395,7 @@ var Level2 = {
             boss.finishOff();
         }
 
-        if (!bossLaunched && score > 12000) {
+        if (!bossLaunched && score > 20000) {
             firstEnemySpacing = 5000;
             secondEnemySpacing = 12000;
             //  dramatic pause before boss

@@ -379,7 +379,7 @@ var Level1 = {
             boss.finishOff();
         }
 
-        if (!bossLaunched && score > 12000) {
+        if (!bossLaunched && score > 20000) {
             firstEnemySpacing = 5000;
             secondEnemySpacing = 12000;
             //  dramatic pause before boss

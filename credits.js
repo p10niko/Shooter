@@ -1,11 +1,11 @@
 var Credits = {
 	preload: function(){
-        game.load.audio('credits', 'assets/sounds/music/level2.ogg');
+        game.load.audio('credits_back_music', 'assets/sounds/music/level2.ogg');
 	},
 
 	create: function(){ 
 		
-		creditsTheme = game.add.audio('credits', 1, true);
+		creditsTheme = game.add.audio('credits_back_music', 1, true);
 		creditsTheme.play();
 		game.stage.backgroundColor = '#000000';
 		game.scale.setGameSize(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio);

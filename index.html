@@ -57,12 +57,11 @@ body {
 			//  Remove the next 2 lines if running locally
 			game.load.baseURL = 'https://p10niko.github.io/Shooter/';
 			game.load.crossOrigin = 'p10niko';
-			
-
-			game.state.add('menu', Menu);
+		
 			game.state.add('level1', Level1);
 			game.state.add('level2', Level2);
 			game.state.add('credits', Credits);
+			game.state.add('menu', Menu);
 			game.state.start('menu');
 		}
 
@@ -425,13 +424,13 @@ body {
                 game.state.start('level2');
 			}
 			
-			function credits(){
+			function creditsScene(){
                 game.state.start('credits');
 			}
 			
 			function menu(){
                 creditsTheme.stop();
-                game.state.start('Menu');
+                game.state.start('menu');
             }
 			
 			function restart () {
