@@ -12,6 +12,7 @@ body {
 </style>
 <script src="level1.js"></script>
 <script src="level2.js"></script>
+<script src="credits.js"></script>
 <script src="menu.js"></script>
 <script src="https://cdn.jsdelivr.net/phaser/2.6.2/phaser.min.js" type="text/javascript"></script>
 </head>
@@ -61,6 +62,7 @@ body {
 			game.state.add('menu', Menu);
 			game.state.add('level1', Level1);
 			game.state.add('level2', Level2);
+			game.state.add('credits', Credits);
 			game.state.start('menu');
 		}
 
@@ -425,6 +427,11 @@ body {
 			
 			function credits(){
                 game.state.start('credits');
+			}
+			
+			function menu(){
+                creditsTheme.stop();
+                game.state.start('Menu');
             }
 			
 			function restart () {

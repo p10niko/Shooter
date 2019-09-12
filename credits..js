@@ -1,12 +1,12 @@
 var Credits = {
 	preload: function(){
-        game.load.audio('credits', 'assets/sounds/music/warped.mp3');
+        game.load.audio('credits', 'assets/sounds/music/level2.ogg');
 	},
 
 	create: function(){ 
 		
-		endtheme = game.add.audio('credits', 1, true);
-		endtheme.play();
+		creditsTheme = game.add.audio('credits', 1, true);
+		creditsTheme.play();
 		game.stage.backgroundColor = '#000000';
 		game.scale.setGameSize(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio);
 		end1 = game.add.bitmapText(250, 800, 'spacefont', 'Thank you for playing', 40);
