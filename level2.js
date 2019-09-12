@@ -37,7 +37,7 @@ var Level2 = {
 
         //items
         game.load.image('bullet_upgrade', 'assets/items/bold_silver.png');
-        game.load.image('health_upgrade', 'assets/items/shield_silver.png');
+        game.load.image('health_upgrade', 'assets/items/shield.png');
 
         //Enemies
         game.load.image('first_wave_enemy', 'assets/enemies/blue-enemy.png');

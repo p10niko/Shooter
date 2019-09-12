@@ -4,6 +4,8 @@ var Credits = {
 	},
 
 	create: function(){ 
+
+		bossLaunched = false;
 		
 		creditsTheme = game.add.audio('credits_back_music', 1, true);
 		creditsTheme.play();
