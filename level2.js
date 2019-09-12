@@ -17,6 +17,7 @@ var Level2 = {
         game.load.image('bullet', 'assets/bullets/bullet.png');
         game.load.image('laser-beam', 'assets/bullets/bullet.png');
         game.load.image('second_enemy_bullet', 'assets/bullets/bullet1.png');
+        game.load.image('boss_bullet', 'assets/bullets/bullet2.png');
 
         //background music
         game.load.audio('level2background', 'assets/sounds/music/level5.ogg');
@@ -194,7 +195,7 @@ var Level2 = {
         secondEnemy.setAll('anchor.y', 0.5);
         secondEnemy.setAll('scale.x', 0.5);
         secondEnemy.setAll('scale.y', 0.5);
-        secondEnemy.setAll('angle', 180);
+        secondEnemy.setAll('angle', 0);
         secondEnemy.forEach(function(enemy){
             enemy.damageAmount = 30;
         });
