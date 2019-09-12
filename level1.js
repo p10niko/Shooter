@@ -293,7 +293,7 @@ var Level1 = {
                 this.lastShot = game.time.now;
                 this.bullets--;
                 bossBullet.reset(this.x, this.y - this.height / 3);
-                bossBullet.damageAmount = 5;
+                bossBullet.damageAmount = 2;
                 var angle = game.physics.arcade.moveToObject(bossBullet, player, 300);
                 bossBullet.angle = game.math.radToDeg(angle);
             }

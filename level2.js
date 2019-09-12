@@ -291,7 +291,7 @@ var Level2 = {
                 firstEnemy.callAll('kill');
                 secondEnemy.callAll('kill');
                 
-                game.time.events.add(4000, level2);
+                game.time.events.add(4000, credits);
             }
         };
 
@@ -309,7 +309,7 @@ var Level2 = {
                 this.lastShot = game.time.now;
                 this.bullets--;
                 bossBullet.reset(this.x, this.y - this.height / 3);
-                bossBullet.damageAmount = 10;
+                bossBullet.damageAmount = 5;
                 var angle = game.physics.arcade.moveToObject(bossBullet, player, 300);
                 bossBullet.angle = game.math.radToDeg(angle);
             }
@@ -395,7 +395,7 @@ var Level2 = {
             boss.finishOff();
         }
 
-        if (!bossLaunched && score > 100) {
+        if (!bossLaunched && score > 12000) {
             firstEnemySpacing = 5000;
             secondEnemySpacing = 12000;
             //  dramatic pause before boss
@@ -470,6 +470,7 @@ var Level2 = {
 
         
         if (! player.alive && gameOver.visible === false) {
+            bossMusic.stop();
             levelbackgroundmusic.stop();
             explosionPlayerSound.play();
             gameOverMusic.play();

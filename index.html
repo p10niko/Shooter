@@ -428,7 +428,8 @@ body {
             }
 			
 			function restart () {
-
+				bossLaunched = false;
+				boss.kill();
 				levelbackgroundmusic.stop();
 				gameOverMusic.stop();
 
