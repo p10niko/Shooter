@@ -17,10 +17,14 @@ var Level1 = {
         game.load.image('bullet', 'assets/bullets/bullet.png');
         game.load.image('laser-beam', 'assets/bullets/bullet.png');
         game.load.image('second_enemy_bullet', 'assets/bullets/bullet1.png');
+        game.load.image('boss_bullet', 'assets/bullets/bullet2.png');
 
         //background music
         game.load.audio('level1background', 'assets/sounds/music/level1.ogg');
         game.load.audio('game_over_music', 'assets/sounds/music/death.ogg');
+        game.load.audio('boss_music', 'assets/sounds/music/boss.ogg');
+        game.load.audio('end_level_music', 'assets/sounds/music/start.ogg');
+
 
         //sound effects
         game.load.audio('laser', 'assets/sounds/effects/laser6.mp3');
@@ -38,6 +42,7 @@ var Level1 = {
         //Enemies
         game.load.image('first_wave_enemy', 'assets/enemies/enemy2.png');
         game.load.image('second_wave_enemy', 'assets/enemies/enemy3.png');
+        game.load.image('boss', 'assets/enemies/boss.png');
 
         //visual effects
         game.load.spritesheet('explosion', '/assets/explode.png', 128, 128);
@@ -65,6 +70,8 @@ var Level1 = {
         shieldsDown = game.add.audio('shields_down');
         shieldsDown.volume = 5;
         gameOverMusic = game.add.audio('game_over_music');
+        bossMusic = game.add.audio('boss_music');
+        endLevelMusic = game.add.audio('end_level_music', 1, true);
 
         //starting the background music
         levelbackgroundmusic.play();
@@ -207,6 +214,144 @@ var Level1 = {
              enemyBullets.body.setSize(20, 20);
          });
 
+        bossBullets = game.add.group();
+        bossBullets.enableBody = true;
+        bossBullets.physicsBodyType = Phaser.Physics.ARCADE;
+        bossBullets.createMultiple(30, 'boss_bullet');
+        bossBullets.setAll('alpha', 0.9);
+        bossBullets.setAll('anchor.x', 0.5);
+        bossBullets.setAll('anchor.y', 0.5);
+        bossBullets.setAll('outOfBoundsKill', true);
+        bossBullets.setAll('checkWorldBounds', true);
+        bossBullets.forEach(function(bossBullets){
+            bossBullets.body.setSize(20, 20);
+        });
+
+         //  The boss
+        boss = game.add.sprite(0, 0, 'boss');
+        boss.exists = false;
+        boss.alive = false;
+        boss.anchor.setTo(0.5, 0.5);
+        boss.damageAmount = 40;
+        boss.angle = 180;
+        boss.scale.x = 0.5;
+        boss.scale.y = 0.5;
+        game.physics.enable(boss, Phaser.Physics.ARCADE);
+        boss.body.maxVelocity.setTo(100, 80);
+        boss.dying = false;
+
+        boss.finishOff = function() {
+            if (!boss.dying) {
+                boss.dying = true;
+                bossDeath.x = boss.x;
+                bossDeath.y = boss.y;
+                bossDeath.start(false, 1000, 50, 20);
+                //  kill boss after explotions
+                game.time.events.add(1000, function(){
+                    var explosion = explosions.getFirstExists(false);
+                    var beforeScaleX = explosions.scale.x;
+                    var beforeScaleY = explosions.scale.y;
+                    var beforeAlpha = explosions.alpha;
+                    explosion.reset(boss.body.x + boss.body.halfWidth, boss.body.y + boss.body.halfHeight);
+                    explosion.alpha = 0.4;
+                    explosion.scale.x = 3;
+                    explosion.scale.y = 3;
+                    var animation = explosion.play('explosion', 30, false, true);
+                    animation.onComplete.addOnce(function(){
+                        explosion.scale.x = beforeScaleX;
+                        explosion.scale.y = beforeScaleY;
+                        explosion.alpha = beforeAlpha;
+                    });
+                    boss.kill();
+                    booster.kill();
+                    boss.dying = false;
+                    bossDeath.on = false;
+                });
+                //  reset pacing for other enemies
+                firstEnemySpacing = 2500;
+                secondEnemySpacing = 1000;
+
+                //bossMusic.stop();
+                bossBullets.callAll('kill');
+                firstEnemy.callAll('kill');
+                secondEnemy.callAll('kill');
+                //endLevel.play();
+                
+                game.time.events.add(4000, level2);
+            }
+        };
+
+        boss.update = function() {
+            if (!boss.alive) {
+                booster.kill();
+                return;
+            }
+
+            //  Fire
+            bossBullet = bossBullets.getFirstExists(false);
+            if (bossBullet &&
+                                
+                game.time.now > 150) {
+                this.lastShot = game.time.now;
+                this.bullets--;
+                bossBullet.reset(this.x, this.y - this.height / 3);
+                bossBullet.damageAmount = 2;
+                var angle = game.physics.arcade.moveToObject(bossBullet, player, 300);
+                bossBullet.angle = game.math.radToDeg(angle);
+            }
+            
+            if (boss.y > game.height / 2) {
+                boss.body.acceleration.y = -100;
+            }
+            if (boss.y < game.height / 2) {
+                boss.body.acceleration.y = 100;
+            }
+            
+            if (boss.x > player.x + 200) {
+                boss.body.acceleration.x = -50;
+            } else if (boss.x < player.x + 400) {
+                boss.body.acceleration.x = 300;
+            } else {
+                boss.body.acceleration.x = 0;
+            }
+                            
+            //  Squish and rotate boss for illusion of "banking"
+            var bank = boss.body.velocity.y / MAXSPEED;
+            boss.scale.x = 0.6 - Math.abs(bank) / 3;
+            boss.angle = 270 - bank * 20;
+                            
+            booster.x = boss.x + 100;
+            booster.y = boss.y;
+            booster.setAll('angle', 90);
+                                                    
+        }
+        //  boss's boosters
+        booster = game.add.emitter(boss.body.x, boss.body.y - boss.height / 2);
+        booster.width = 0;
+        booster.makeParticles('second_enemy_bullet');
+        booster.forEach(function(p){
+        p.crop({x: 120, y: 0, width: 45, height: 50});
+
+        //  clever way of making 2 exhaust trails by shifing particles randomly left or right
+        p.anchor.x = game.rnd.pick([1,-1]) * 0.95 + 0.5;
+        p.anchor.y = 0.75;
+        });
+        booster.setXSpeed(0, 0);
+        booster.setRotation(0,0);
+        booster.setYSpeed(-30, -50);
+        booster.gravity = 0;
+        booster.setAlpha(1, 0.1, 400);
+        booster.setScale(0.3, 0, 0.7, 0, 5000, Phaser.Easing.Quadratic.Out);
+        boss.bringToTop();
+
+        //  Big explosion for boss
+        bossDeath = game.add.emitter(boss.x, boss.y);
+        bossDeath.width = boss.width / 2;
+        bossDeath.height = boss.height / 2;
+        bossDeath.makeParticles('explosion', [0,1,2,3,4,5,6,7], 20);
+        bossDeath.setAlpha(0.9, 0, 900);
+        bossDeath.setScale(0.3, 1.0, 0.3, 1.0, 1000, Phaser.Easing.Quintic.Out);
+
          //  Shields stat
          shields = game.add.bitmapText(game.world.width - 250, 10, 'spacefont', '' + player.health +'%', 35);
          shields.render = function () {
@@ -231,6 +376,24 @@ var Level1 = {
 
     update: function() {
 
+        if(bossLaunched && boss.health < 5){
+            bossMusic.stop();
+            endLevelMusic.play();
+            boss.finishOff();
+        }
+
+        if (!bossLaunched && score > 100) {
+            firstEnemySpacing = 5000;
+            secondEnemySpacing = 12000;
+            //  dramatic pause before boss
+            levelbackgroundmusic.stop();
+			game.time.events.add(2000, function(){
+				bossLaunched = true;
+                launchBoss();
+                bossMusic.play();
+            });
+            
+		}
 
         //  Scroll the background
         starfield.tilePosition.x -= 2;
@@ -285,6 +448,10 @@ var Level1 = {
         game.physics.arcade.overlap(secondEnemy, laserBeam, hitEnemy, null, this);
         game.physics.arcade.overlap(secondEnemyBullets, player, enemyHitsPlayer, null, this);
 
+        game.physics.arcade.overlap(boss, laserBeam, hitEnemy, null, this);
+        game.physics.arcade.overlap(boss, bullets, hitEnemy, null, this);
+        game.physics.arcade.overlap(bossBullets, player, enemyHitsPlayer, null, this);
+
         
         if (! player.alive && gameOver.visible === false) {
             levelbackgroundmusic.stop();
@@ -307,7 +474,7 @@ var Level1 = {
                 }
             }
         }
-        if (!secondEnemyLaunched && score > 100) {
+        if (!secondEnemyLaunched && score > 700) {
             secondEnemyLaunched = true;
             launchSecondEnemy();
             //  Slow green enemies down now that there are other enemies

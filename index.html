@@ -25,6 +25,7 @@ body {
 		});
 
 		var secondEnemyLaunched = false;
+		var bossLaunched = false;
 		var playerDeath;
 		var shields;
 		var score = 0;
@@ -61,12 +62,10 @@ body {
 			game.state.add('level1', Level1);
 			game.state.add('level2', Level2);
 			game.state.start('menu');
-
 		}
 
 		function create() {
-
-		
+			
 		}
 
 		function update() {
@@ -404,6 +403,23 @@ body {
                     playerDeath.y = player.y;
                     playerDeath.start(false, 1000, 10, 10);
                 }
+			}
+			
+			function launchBoss() {
+                boss.reset(game.width + 150, game.rnd.integerInRange(50, 550));
+                booster.start(false, 1000, 10);
+                boss.health = 1500;
+                bossBulletTimer = game.time.now + 5000;
+			}
+			
+			function level2(){
+                score = 0;
+                player.health = 100;
+                firstEnemySpacing = 1000;
+                secondEnemyLaunched = false;
+                bossLaunched = false;
+                player.weaponLevel = 1;
+                game.state.start('level2');
             }
 			
 			function restart () {

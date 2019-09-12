@@ -326,7 +326,7 @@ var Level2 = {
                 }
             }
         }
-        if (!secondEnemyLaunched && score > 100) {
+        if (!secondEnemyLaunched && score > 500) {
             secondEnemyLaunched = true;
             launchSecondEnemy();
             //  Slow green enemies down now that there are other enemies
