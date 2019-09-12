@@ -421,6 +421,10 @@ body {
 				player.weaponLevel = 1;
 				endLevelMusic.play();
                 game.state.start('level2');
+			}
+			
+			function credits(){
+                game.state.start('credits');
             }
 			
 			function restart () {
