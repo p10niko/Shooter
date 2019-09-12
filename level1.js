@@ -271,7 +271,7 @@ var Level1 = {
                 firstEnemySpacing = 2500;
                 secondEnemySpacing = 1000;
 
-                //bossMusic.stop();
+                bossMusic.stop();
                 bossBullets.callAll('kill');
                 firstEnemy.callAll('kill');
                 secondEnemy.callAll('kill');
@@ -390,7 +390,6 @@ var Level1 = {
 			game.time.events.add(2000, function(){
 				bossLaunched = true;
                 launchBoss();
-                bossMusic.play();
             });
             
 		}

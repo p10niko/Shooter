@@ -406,6 +406,7 @@ body {
 			}
 			
 			function launchBoss() {
+				bossMusic.play();
                 boss.reset(game.width + 150, game.rnd.integerInRange(50, 550));
                 booster.start(false, 1000, 10);
                 boss.health = 1500;
