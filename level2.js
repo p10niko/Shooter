@@ -20,10 +20,10 @@ var Level2 = {
         game.load.image('boss_bullet', 'assets/bullets/bullet2.png');
 
         //background music
-        game.load.audio('level2background', 'assets/sounds/music/level5.ogg');
-        game.load.audio('game_over_music', 'assets/sounds/music/death.ogg');
-        game.load.audio('boss_music', 'assets/sounds/music/boss.ogg');
-        game.load.audio('end_level_music', 'assets/sounds/music/start.ogg');
+        game.load.audio('level2background', 'assets/sounds/music/level5.mp3');
+        game.load.audio('game_over_music', 'assets/sounds/music/death.mp3');
+        game.load.audio('boss_music', 'assets/sounds/music/boss.mp3');
+        game.load.audio('end_level_music', 'assets/sounds/music/start.mp3');
 
         //sound effects
         game.load.audio('laser', 'assets/sounds/effects/laser6.mp3');
