@@ -34,7 +34,7 @@ var Level2 = {
         game.load.audio('explosion', 'assets/sounds/effects/explosion.mp3');
         game.load.audio('explosion_player', 'assets/sounds/effects/explosion_player.mp3');
         game.load.audio('shields_down', 'assets/sounds/effects/lowDown.mp3');
-        game.load.audio('shields_up', 'assets/sounds/effects/pepSound3.mp3');
+        game.load.audio('shields_up', 'assets/sounds/effects/health.mp3');
 
         //items
         game.load.image('bullet_upgrade', 'assets/items/bold_silver.png');
@@ -194,6 +194,7 @@ var Level2 = {
         firstEnemy.setAll('outOfBoundsKill', true);
         firstEnemy.setAll('checkWorldBounds', true);
         firstEnemy.forEach(function(enemy){
+            enemy.body.setSize(30, 30);
             addEnemyEmitterTrail(enemy);
                 enemy.damageAmount = 20;
                 enemy.events.onKilled.add(function(){
@@ -213,7 +214,7 @@ var Level2 = {
         secondEnemy.setAll('anchor.y', 0.5);
         secondEnemy.setAll('scale.x', 0.5);
         secondEnemy.setAll('scale.y', 0.5);
-        secondEnemy.setAll('angle', 0);
+        secondEnemy.setAll('angle', 180);
         secondEnemy.forEach(function(enemy){
             enemy.damageAmount = 30;
         });
