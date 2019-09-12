@@ -41,7 +41,7 @@ var Level2 = {
         game.load.image('first_wave_enemy', 'assets/enemies/blue-enemy.png');
         game.load.image('second_wave_enemy', 'assets/enemies/green-enemy.png');
         game.load.image('meteor', 'assets/enemies/astroid.png');
-        game.load.image('boss', 'assets/enemies/boss.png');
+        game.load.image('boss', 'assets/enemies/boss2.png');
 
         //visual effects
         game.load.spritesheet('explosion', '/assets/explode.png', 128, 128);
